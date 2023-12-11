@@ -13,6 +13,7 @@
     <version>1.0.0</version>
     <name>jwt-spring-boot-starter</name>
     <description>This is starter for Spring Boot with implementation of standard JwtRequestFilter</description>
+    <url>https://github.com/blbulyandavbulyan/jwt-spring-boot-starter</url>
     <licenses>
         <license>
             <name>GNU GENERAL PUBLIC LICENSE v3</name>
