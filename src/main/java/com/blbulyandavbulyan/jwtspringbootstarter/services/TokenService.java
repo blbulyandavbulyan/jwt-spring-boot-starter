@@ -32,7 +32,7 @@ public class TokenService {
     public TokenService(JwtConfigurationProperties jwtConfigurationProperties) {
         this.jwtConfigurationProperties = jwtConfigurationProperties;
         //задаём ключ подписи
-        secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256); //or HS384 or HS512
+        secretKey = Keys.secretKeyFor(jwtConfigurationProperties.getSignatureAlgorithm()); //or HS384 or HS512
         //создаём парсер
         parser = Jwts.parserBuilder().setSigningKey(secretKey).build();
     }
