@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,13 +19,9 @@ import java.io.IOException;
 /**
  * Данный фильтр управляет jwt аутентификацией
  */
+@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final TokenService tokenService;
-
-    public JwtRequestFilter(TokenService tokenService) {
-        this.tokenService = tokenService;
-    }
-
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
