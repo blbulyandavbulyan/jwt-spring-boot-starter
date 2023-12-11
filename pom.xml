@@ -21,6 +21,19 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <name>David Blbulyan</name>
+            <email>davidblbulyan02@gmail.com</email>
+            <organization>github.com/blbulyandavbulyan</organization>
+            <organizationUrl>https://github.com/blbulyandavbulyan</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com/blbulyandavbulyan/jwt-spring-boot-starter.git</connection>
+        <developerConnection>scm:git:ssh://github.com:blbulyandavbulyan/jwt-spring-boot-starter.git</developerConnection>
+        <url>https://github.com/blbulyandavbulyan/jwt-spring-boot-starter/tree/master</url>
+    </scm>
     <properties>
         <java.version>17</java.version>
         <jjwt.version>0.11.5</jjwt.version>
