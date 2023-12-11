@@ -28,23 +28,22 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
-        String username = null;
-        String jwt = null;
         if(authHeader != null && authHeader.startsWith("Bearer ")){
+            String jwt = authHeader.substring(7);
             try{
-                jwt = authHeader.substring(7);
-                username = tokenService.getUserName(jwt);
+                String username = tokenService.getUserName(jwt);
+                if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                            username,
+                            null,
+                            tokenService.getRoles(jwt).stream().map(SimpleGrantedAuthority::new).toList()
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(token);
+                }
             }
             catch (ExpiredJwtException | SignatureException ignored){
+                logger.debug("Invalid or expired signature for token: " + jwt);
             }
-        }
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    username,
-                    null,
-                    tokenService.getRoles(jwt).stream().map(SimpleGrantedAuthority::new).toList()
-            );
-            SecurityContextHolder.getContext().setAuthentication(token);
         }
         filterChain.doFilter(request, response);
     }
