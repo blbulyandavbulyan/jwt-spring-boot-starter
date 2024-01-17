@@ -3,6 +3,7 @@ package com.blbulyandavbulyan.jwtspringbootstarter.services;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import com.blbulyandavbulyan.jwtspringbootstarter.configs.JwtConfigurationProperties;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -26,9 +27,14 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TokenServiceTest {
+    private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
     @Mock
     private JwtConfigurationProperties jwtConfigurationProperties;
 
+    @BeforeEach
+    public void setUp() {
+        when(jwtConfigurationProperties.getSignatureAlgorithm()).thenReturn(signatureAlgorithm);
+    }
     @Test
     void generateToken() {
         Duration expectedLifetime = Duration.ofMinutes(10);
@@ -43,7 +49,7 @@ class TokenServiceTest {
             JwtParserBuilder mockParserBuilder = mock(JwtParserBuilder.class);
             jwtsMockedStatic.when(Jwts::parserBuilder).thenReturn(mockParserBuilder);
             when(mockParserBuilder.setSigningKey(keyMock)).thenAnswer(InvocationOnMock::getMock);
-            keysMockedStatic.when(() -> Keys.secretKeyFor(SignatureAlgorithm.HS256)).thenReturn(keyMock);
+            keysMockedStatic.when(() -> Keys.secretKeyFor(signatureAlgorithm)).thenReturn(keyMock);
             when(mockJwtBuilder.setClaims(anyMap())).thenAnswer(InvocationOnMock::getMock);
             when(mockJwtBuilder.setSubject(anyString())).thenAnswer(InvocationOnMock::getMock);
             when(mockJwtBuilder.setIssuedAt(any(Date.class))).thenAnswer(InvocationOnMock::getMock);
@@ -79,7 +85,7 @@ class TokenServiceTest {
             when(mockParserBuilder.setSigningKey(keyMock)).thenAnswer(InvocationOnMock::getMock);
             JwtParser mockJwtParser = mock(JwtParser.class);
             when(mockParserBuilder.build()).thenReturn(mockJwtParser);
-            keysMockedStatic.when(() -> Keys.secretKeyFor(SignatureAlgorithm.HS256)).thenReturn(keyMock);
+            keysMockedStatic.when(() -> Keys.secretKeyFor(signatureAlgorithm)).thenReturn(keyMock);
             Jws<Claims> jwsMock = mock(Jws.class);
             when(mockJwtParser.parseClaimsJws(token)).thenReturn(jwsMock);
             Claims mockClaims = mock(Claims.class);
