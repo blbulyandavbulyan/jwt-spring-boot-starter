@@ -4,13 +4,14 @@ import com.blbulyandavbulyan.jwtspringbootstarter.configs.JwtConfigurationProper
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.*;
-
+@Service
 public class TokenService {
     /**
      * Время жизни jwt токена
